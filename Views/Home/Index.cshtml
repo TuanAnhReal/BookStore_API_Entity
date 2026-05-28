@@ -1,0 +1,53 @@
+﻿@{
+    ViewData["Title"] = "Quản lý sách";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Danh mục quản lý sách</h2>
+    </div>
+
+    <table class="table table-bordered table-striped" id="bookTable">
+        <thead class="table-dark">
+            <tr>
+                <th>Mã sách</th>
+                <th>Tên sách</th>
+                <th>Tác giả</th>
+                <th>Giá bán</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            loadBooks();
+        });
+
+        function loadBooks() {
+            $.ajax({
+                url: 'https://localhost:44366/api/books',
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    var html = '';
+                    $.each(data, function (key, item) {
+                        html += '<tr>';
+                        html += '<td>' + item.id + '</td>';
+                        html += '<td>' + item.title + '</td>';
+                        html += '<td>' + item.author + '</td>';
+                        html += '<td>' + item.price.toLocaleString('vi-VN') + ' đ</td>';
+                        html += '</tr>';
+                    });
+                    $('#bookTable tbody').html(html);
+                },
+                error: function (xhr, status, error) {
+                    alert('Không thể tải danh sách sách: ' + error);
+                }
+            });
+        }
+    </script>
+}
