@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace WebCoffee.BackendServer.Models
+namespace BookStore_API_Entity.Models
 {
     public class AppDbContext : DbContext
     {

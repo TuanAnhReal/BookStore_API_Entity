@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using WebCoffee.BackendServer.Models;
+using BookStore_API_Entity.Models;
 
 namespace BookStore_API_Entity.Controllers
 {
@@ -40,7 +40,7 @@ namespace BookStore_API_Entity.Controllers
         {
             _context.Books.Add(book);
             await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetBook), new { Id = book.Id }, book);
+            return CreatedAtAction(nameof(GetBook), new { id = book.Id }, book);
         }
 
         [HttpPut("{id}")]

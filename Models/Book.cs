@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WebCoffee.BackendServer.Models
+namespace BookStore_API_Entity.Models
 {
     public class Book
     {

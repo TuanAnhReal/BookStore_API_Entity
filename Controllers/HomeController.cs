@@ -7,13 +7,6 @@ namespace BookStore_API_Entity.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IBookApiClient _bookApiClient;
-
-        public HomeController(IBookApiClient bookApiClient)
-        {
-            _bookApiClient = bookApiClient;
-        }
-
         public IActionResult Index()
         {
             return View();

@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BookStore_API_Entity.Models;
+using BookStore_API_Entity.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -12,7 +14,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using WebCoffee.BackendServer.Models;
 
 namespace BookStore_API_Entity
 {
@@ -31,8 +32,15 @@ namespace BookStore_API_Entity
 
             services.AddControllers();
 
+            services.AddControllersWithViews();
+
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddHttpClient<IBookApiClient, BookApiClient>(client =>
+            {
+                client.BaseAddress = new Uri("https://localhost:44366/");
+            });
 
             services.AddSwaggerGen(c =>
             {
@@ -52,13 +60,22 @@ namespace BookStore_API_Entity
 
             app.UseHttpsRedirection();
 
+            // 1. Cho phép ứng dụng truy cập các file trong wwwroot (Bootstrap, jQuery)
+            app.UseStaticFiles();
+
             app.UseRouting();
 
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
+                // Định tuyến cho API
                 endpoints.MapControllers();
+
+                // 2. Định tuyến mặc định cho giao diện HTML (MVC)
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }
